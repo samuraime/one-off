@@ -7,6 +7,9 @@
     "server",
     "client"
   ],
+  "scripts": {
+    "deploy:client": "yarn workspace client build && gh-pages -d client/build"
+  },
   "repository": "git@github.com:samuraime/one-off.git",
   "author": "SamuraiMe <samurai7@foxmail.com>",
   "license": "MIT",
@@ -15,6 +18,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.20.0",
+    "gh-pages": "^2.2.0",
     "husky": "^4.0.10",
     "lint-staged": "^10.0.1",
     "prettier": "^1.19.1"
