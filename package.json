@@ -1,0 +1,17 @@
+{
+  "name": "repo-template-javascript",
+  "version": "1.0.0",
+  "description": "repo template for javascript",
+  "repository": "git@github.com:samuraime/repo-template-javascript.git",
+  "author": "SamuraiMe <samurai7@foxmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "husky": "^4.0.10",
+    "lint-staged": "^10.0.1",
+    "prettier": "^1.19.1"
+  }
+}
