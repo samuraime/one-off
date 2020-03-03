@@ -1,0 +1,11 @@
+{
+  "name": "one-off",
+  "script": "./index.js",
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": 3002
+  },
+  "engines": {
+    "node": ">=8.0"
+  }
+}

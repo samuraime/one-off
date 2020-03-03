@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon -r ../node_modules/dotenv/config --exec babel-node src",
+    "build": "babel src -d build",
+    "postbuild": "cp ./package.json ./build && cp ./process.json ./build"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "koa": "^2.11.0",
+    "koa-helmet": "^5.2.0",
+    "koa-router": "^8.0.8",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.6",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.2"
+  }
+}

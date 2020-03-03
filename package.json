@@ -1,8 +1,13 @@
 {
-  "name": "repo-template-javascript",
+  "name": "one-off",
   "version": "1.0.0",
-  "description": "repo template for javascript",
-  "repository": "git@github.com:samuraime/repo-template-javascript.git",
+  "private": true,
+  "description": "just some one-off programs",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "repository": "git@github.com:samuraime/one-off.git",
   "author": "SamuraiMe <samurai7@foxmail.com>",
   "license": "MIT",
   "devDependencies": {
