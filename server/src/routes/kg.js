@@ -50,8 +50,7 @@ async function getRankItemsByMid(mid) {
 }
 
 async function getRankListByMids(ctx) {
-  // const { mids } = ctx.body;
-  const mids = ['002Rn3IH1mlv0E'];
+  const { mids } = ctx.request.body;
   const lists = await map(mids, getRankItemsByMid);
   const items = lists.flat();
   ctx.body = items;
