@@ -90,6 +90,8 @@ async function getVolumeValue(file) {
   function getValue(y) {
     const data = context.getImageData(0, y, width, 1).data;
 
+    console.log(data.slice(345 * 4, 350 * 4));
+
     const candidates = [];
     for (let i = 0; i < width; i++) {
       const offset = i * 4;
@@ -109,21 +111,26 @@ async function getVolumeValue(file) {
       }
     }
 
-    function isSameColor(leftIndex, rightIndex) {
-      const l = leftIndex * 4;
-      const r = rightIndex * 4;
-      return (
-        data[l] === data[r] &&
-        data[l + 1] === data[r + 1] &&
-        data[l + 2] === data[r + 2]
-      );
+    // function isSameColor(leftIndex, rightIndex) {
+    //   const l = leftIndex * 4;
+    //   const r = rightIndex * 4;
+    //   return (
+    //     data[l] === data[r] &&
+    //     data[l + 1] === data[r + 1] &&
+    //     data[l + 2] === data[r + 2]
+    //   );
+    // }
+
+    function getColorAt(index) {
+      return data.slice(index * 4, (index + 1) * 4);
     }
 
-    function isNearLeft(mid, left, right) {
-      // if (data[offset] === 0x13 && data[offset + 1] === 0x13 && data[offset + 2] === 0x13) {
-      //   break;
-      // }
-      return true;
+    function length(a, b) {
+      return (a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2;
+    }
+
+    function isNearLeft(middleColor, leftColor, rightColor) {
+      return length(middleColor, leftColor) < length(middleColor, rightColor);
     }
 
     function getSeperatedPoint(left, right) {
@@ -131,16 +138,14 @@ async function getVolumeValue(file) {
     }
 
     function getSeperatedPoints() {
-      [149, 149, 151, 153, 600, 601, 602, 603, 604, 605, 606, 615, 617].forEach(
-        i => {
-          console.log(data.slice(i * 4, (i + 1) * 4));
-        }
-      );
       // |---------|-|-----|
-      const points = [candidates[0]];
+      const firstIndex = candidates[0];
+      const points = [firstIndex];
       // to start, |---------------
-      for (let i = candidates[0] - 1; i > 0; i--) {
-        if (isNearLeft(i, i - 1, candidates[0])) {
+      for (let i = firstIndex - 1; i > 0; i--) {
+        if (
+          !isNearLeft(getColorAt(i), [0x13, 0x13, 0x13], getColorAt(firstIndex))
+        ) {
           break;
         }
         points[0] = i;
@@ -148,25 +153,36 @@ async function getVolumeValue(file) {
       // ---------|-|-----
       // to right
       const lastIndex = candidates[candidates.length - 1];
-      for (let i = candidates[0]; i < lastIndex; i++) {
-        if (!isSameColor(i, i + 1)) {
-          const point = getSeperatedPoint(i, i + 1);
+      // for (let i = candidates[0]; i < lastIndex; i++) {
+      //   if (!isSameColor(i, i + 1)) {
+      //     const point = getSeperatedPoint(i, i + 1);
+      //     points.push(point);
+      //   }
+      // }
+      for (let i = 0; i < candidates.length - 1; i++) {
+        if (candidates[i] + 1 !== candidates[i + 1]) {
+          const point = getSeperatedPoint(candidates[i], candidates[i + 1]);
           points.push(point);
         }
       }
       // to end, ---------------|
-      for (let i = lastIndex + 1; i < width; i++) {
-        if (!isNearLeft(i, lastIndex, i + 1)) {
-          points.push(i - 1);
+      points.push(lastIndex);
+      for (let i = lastIndex + 1; i < width - 1; i++) {
+        if (
+          !isNearLeft(getColorAt(i), getColorAt(lastIndex), [0x13, 0x13, 0x13])
+        ) {
+          points[points.length - 1] = i - 1;
           break;
         }
       }
+
+      console.log(candidates);
+      console.log(points);
 
       return points;
     }
 
     const ps = getSeperatedPoints();
-    console.log(ps);
     const total = ps[3] - ps[0] - ps[2] + ps[1];
     const current = ps[1] - ps[0];
 
