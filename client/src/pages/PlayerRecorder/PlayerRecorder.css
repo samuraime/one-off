@@ -1,0 +1,51 @@
+.App {
+  width: 100vw;
+  text-align: center;
+}
+
+.video-current-time {
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+}
+
+.record-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, .7);
+  color: #fff;
+}
+
+td, th {
+  min-width: 80px;
+  height: 1.5em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+th {
+  color: #aaa;
+}
+
+td {
+  color: #ccc;
+}
+
+footer {
+  position: absolute;
+  width: 100vw;
+  bottom: 0;
+  text-align: center;
+  user-select: none;
+  padding-bottom: 0.5rem;
+}
+
+footer span {
+  display: inline-block;
+  padding: 0 0.5rem;
+}
